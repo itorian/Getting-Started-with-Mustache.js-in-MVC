@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "My Friends";
+}
+
+<h2>My Friend</h2>
+
+<script src="~/Scripts/jquery-2.0.3.min.js"></script>
+<script src="~/Scripts/mustache.js"></script>
+
+<script type="text/javascript">
+    function showFriends(e) {
+        $.getJSON("/Home/MyFriends/", function (data) {
+            var templateWithData = Mustache.to_html($("#templateFriends").html(), { RootTag: data });
+            $("#destinationElement").empty().html(templateWithData);
+        });
+    }
+</script>
+
+<input type="button" value="Show Data" onclick="showFriends();" />
+
+<div id="destinationElement">
+</div>
+
+<script id="templateFriends" type="text/html">
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Mobile</th>
+        </thead>
+        {{#RootTag}}
+            <tr>
+                <td>{{Name}}</td>
+                <td>{{Address}}</td>
+                <td>{{Mobile}}</td>
+            </tr>
+        {{/RootTag}}
+    </table>
+</script>
+
+@*<script id="templateFriends" type="text/html">
+    <ul>
+        {{#RootTag}}
+            <li>{{Name}} - {{Address}} - {{Mobile}}</li>
+        {{/RootTag}}
+    </ul>
+</script>*@
